@@ -150,18 +150,31 @@ const connection=()=>{
   client.on('qr', (qr) => {
     console.log('QR RECEIVED', qr);
     qrcode.toDataURL(qr, (err, url) => {
-      socket.emit('qr', url);
+      try {
+        socket.emit('qr', url);
       socket.emit('message', 'QR Code received, scan please!');
+      } catch (error) {
+        console.log(error)
+      }
+      
     });
   });
 
   client.on('ready', () => {
+    try {
+      
     socket.emit('ready', 'Whatsapp is ready!');
     socket.emit('message', 'Whatsapp is ready!');
+    } catch (error) {
+      console.log(error)
+    }
   });
 
   client.on('authenticated', (session) => {
-    socket.emit('authenticated', 'Whatsapp is authenticated!');
+
+    try {
+      
+      socket.emit('authenticated', 'Whatsapp is authenticated!');
     socket.emit('message', 'Whatsapp is authenticated!');
     console.log('AUTHENTICATED', session);
     sessionCfg = session;
@@ -170,29 +183,52 @@ const connection=()=>{
         console.error(err);
       }
     });
+      } catch (error) {
+        console.log(error)
+      }
+
+    
   });
 
   client.on('auth_failure', function(session) {
-    socket.emit('message', 'Auth failure, restarting...');
+    
+    try {
+      
+      socket.emit('message', 'Auth failure, restarting...');
+      } catch (error) {
+        console.log(error)
+      }
   });
 
   client.on('disconnected', (reason) => {
-    socket.emit('message', 'Whatsapp is disconnected!');
+    try {
+      
+      socket.emit('message', 'Whatsapp is disconnected!');
     fs.unlinkSync(SESSION_FILE_PATH, function(err) {
         if(err) return console.log(err);
         console.log('Session file deleted!');
     });
     client.destroy();
     client.initialize();
+      } catch (error) {
+        console.log(error)
+      }
+    
   });
 }
 // Socket IO
 client.initialize();
 
 io.on('connection', function(socket) {
-  socket.emit('message', 'Connecting...');
+  try {
+      
+    socket.emit('message', 'Connecting...');
 
   connection()
+    } catch (error) {
+      console.log(error)
+    }
+  
 });
 
 
