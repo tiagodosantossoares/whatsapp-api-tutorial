@@ -145,7 +145,7 @@ client.on('message', msg => {
   }
 });
 
-client.initialize();
+
 const connection=()=>{
   client.on('qr', (qr) => {
     console.log('QR RECEIVED', qr);
@@ -187,6 +187,8 @@ const connection=()=>{
   });
 }
 // Socket IO
+client.initialize();
+
 io.on('connection', function(socket) {
   socket.emit('message', 'Connecting...');
 
