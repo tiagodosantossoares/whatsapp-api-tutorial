@@ -221,7 +221,6 @@ client.initialize();
 
 io.on('connection', function(socket) {
   try {
-      
     socket.emit('message', 'Connecting...');
 
   connection()
