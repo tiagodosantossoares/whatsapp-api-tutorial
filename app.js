@@ -47,7 +47,7 @@ app.get('/status', (req, res) => {
     }).catch(error=>{
       client.destroy();
       client.initialize();
-      connection()
+      // connection()
       console.log("ERROR Client",error)
       return res.status(400).json({
         status: false,
